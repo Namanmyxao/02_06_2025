@@ -1,15 +1,18 @@
 package org.example;
 
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
+
 
 public class StudentService {
     Scanner scanner = new Scanner(System.in);
-    ArrayList<Student> students = new ArrayList<>();
-    HashMap<String, String> mapStudents = new HashMap<>();
-    public void addStudent(Student student){
+    Map<String,Student> mapStudents = new HashMap<>();
+    private String code;
+
+    public void addStudent(){
         System.out.print("Enter studentCode:");
         String studentCode = scanner.nextLine();
         System.out.print("Enter name:");
@@ -22,12 +25,10 @@ public class StudentService {
         double GPA = Double.parseDouble(scanner.nextLine());
         GpaClassifier rank = new GpaClassifier();
         String Classify = rank.classify(GPA);
-
-        students.add(new Student(studentCode, name, age, major, GPA, Classify));
-        mapStudents.put(studentCode, name);
+        mapStudents.put(studentCode, new Student(studentCode, name, age, major, GPA, Classify));
     }
 
-    public String findStudentByCode(String code){
+    public Student findStudentByCode(String code){
         return mapStudents.get(code);
     }
 
@@ -35,7 +36,7 @@ public class StudentService {
         mapStudents.remove(code);
     }
 
-    public ArrayList<Student> getAllStudents(){
-        return students;
+    public List<Student> getAllStudents(){
+        return mapStudents.values().stream().toList();
     }
 }

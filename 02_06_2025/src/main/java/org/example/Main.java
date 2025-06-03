@@ -3,10 +3,15 @@ package org.example;
 import java.util.Scanner;
 
 public class Main {
-    static StudentService stud1 = new StudentService();
-    private static final Scanner scanner = new Scanner(System.in);
-    private static Student Student;
+    private static final StudentService student = new StudentService();
+    private static Scanner scanner = new Scanner(System.in);
+
     private static ExcelExporter file;
+
+    public Main(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
     public static void main(String[] args){
         while (true){
             System.out.println("\n===== Student Manager Menu =====");
@@ -20,11 +25,22 @@ public class Main {
             int option = Integer.parseInt(scanner.nextLine());
 
             switch (option){
-                case 1 -> stud1.addStudent(Student);
-                case 2 -> stud1.getAllStudents();
-                case 3 -> stud1.findStudentByCode(Student.get_studentCode());
-                case 4 -> stud1.deleteStudent(Student.get_studentCode());
-                case 5 -> file.export(stud1.getAllStudents(), "C:/Users/hoang/OneDrive/Desktop");
+                case 1 -> student.addStudent();
+                case 2 -> {
+                    System.out.println(student.getAllStudents());
+                }
+                case 3 -> {
+                    System.out.println("Enter student's code: ");
+                    String code = scanner.nextLine();
+                    System.out.println(student.findStudentByCode(code));
+                }
+                case 4 -> {
+                    System.out.println("Enter student's code: ");
+                    String code = scanner.nextLine();
+                    student.deleteStudent(code);
+                    System.out.println("Student deleted");
+                }
+                case 5 -> file.export(student.getAllStudents(), "C:/Users/hoang/OneDrive/Desktop");
                 case 6 -> {
                     System.out.println("Goodbye");
                     return;
